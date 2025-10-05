@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Predictions — Exoplanets</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="ai-predict.css"/>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+</head>
+<body>
+  <canvas id="bgStars" aria-hidden="true"></canvas>
+  <canvas id="bgTrails" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" class="logo" aria-hidden="true">
+        <defs><linearGradient id="g2" x1="0" x2="1">
+          <stop offset="0%" stop-color="#7c5cff"/><stop offset="100%" stop-color="#3dd9eb"/></linearGradient></defs>
+        <path fill="url(#g2)" d="M12 2l2.39 4.84 5.34.78-3.86 3.77.91 5.32L12 14.77 7.22 16.71l.91-5.32L4.27 7.62l5.34-.78L12 2z"/>
+      </svg>
+      <span>NASA Data Studio — AI Predictions</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="are-we-alone.html">Are We Alone?</a>
+      <a href="ai-predictions.html" class="active">AI Predictions</a>
+    </nav>
+    <div class="actions">
+      <a class="ghost" href="travel1.html">Travel</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="section-head">
+        <h2>🤖 Upload AI predictions (CSV)</h2>
+        <div class="hint" data-tip="Columns like: name/koi_name, probability, label/class, a/koi_sma, teq/temperature_k, radius_Rearth.">?</div>
+      </div>
+      <div class="dropzone">
+        <p class="muted">Drag & drop your CSV here, or</p>
+        <label class="btn-file">Choose file<input id="predFile" type="file" accept=".csv" hidden/></label>
+        <button id="loadSample" class="ghost">Load sample</button>
+        <div class="status muted">No file yet</div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div>Total rows</div><h3 id="p_total">0</h3></div>
+        <div class="kpi"><div>Avg. probability</div><h3 id="p_avg">0.00</h3></div>
+        <div class="kpi"><div>High (≥0.8)</div><h3 id="p_high">0</h3></div>
+      </div>
+    </section>
+
+    
+    <section class="card elevate">
+      <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <h2>🛰️ Visual explorer</h2>
+        <div class="controls" style="display:flex;gap:10px;align-items:center">
+          <label class="muted">Chart:</label>
+          <select id="chartSelect" class="input" style="background:transparent;border:1px solid var(--border);border-radius:10px;padding:8px 10px;color:#cdd3ff">
+            <option value="dur_depth">Duration × Depth (log)</option>
+            <option value="rad_snr">Radius × Model SNR (log)</option>
+            <option value="snr_hist">Model SNR — histogram</option>
+            <option value="depth_box">Depth — boxplot (log)</option>
+          </select>
+        </div>
+      </div>
+      <div id="predPlot" class="plot"></div>
+      <p class="muted" style="margin-top:8px">
+        الألوان حسب <b>predicted_label</b>، ويمكن التبديل بين الرسوم الشائعة لمجموعة KOI: مدة العبور × عمقه، نصف القطر × SNR، توزيع SNR،
+        وصناديق لعمق العبور على مقياس لوغاريتمي.
+      </p>
+    </section>
+    
+
+    <section class="card">
+      <div class="section-head"><h2>Preview (top 20)</h2></div>
+      <div id="preview" class="preview-table"></div>
+    
+    </section>
+
+    <section class="card elevate">
+      <div class="section-head">
+        <h2>🧠 Feature signals (correlation with target)</h2>
+        <div class="controls" style="display:flex;gap:10px;align-items:center">
+          <label class="muted">Target:</label>
+          <select id="targetSelect" class="input" style="background:transparent;border:1px solid var(--border);border-radius:10px;padding:8px 10px;color:#cdd3ff">
+            <option value="predicted_label">predicted_label</option>
+            <option value="true_label">true_label</option>
+          </select>
+          <button id="recompute" class="ghost">Recompute</button>
+        </div>
+      </div>
+      <div id="featurePlot" class="plot"></div>
+      <p class="muted" style="margin-top:8px">نحسب قوة الإشارة (|correlation|) لكل عمود رقمي مع الهدف المختار.</p>
+    </section>
+  </main>
+
+
+  <script src="fx.js"></script>
+  <script src="ai-predict.js"></script>
+</body>
+</html>

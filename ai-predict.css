@@ -1,0 +1,10 @@
+
+/* AI Predictions page */
+.preview-table { overflow:auto; max-height: 420px; border:1px solid var(--border); border-radius:12px }
+.preview-table table{ width:100%; border-collapse:collapse; font-size:14px }
+.preview-table th,.preview-table td{ padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.06) }
+.preview-table th{ position:sticky; top:0; background:rgba(8,12,26,.7); backdrop-filter: blur(6px); }
+.plot{ width:100%; min-height: 460px; }
+.btn-file{ position: relative; display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:14px; border:1px solid var(--border); background: radial-gradient(120% 120% at 0% 0%, rgba(124,92,255,.15), transparent 60%), linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); box-shadow: 0 6px 18px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06); font-weight:600; cursor:pointer }
+.btn-file::before{ content:"⤓"; font-size:14px; line-height:1; opacity:.9; transform:translateY(-1px) }
+.btn-file input[type="file"]{ display:none }
